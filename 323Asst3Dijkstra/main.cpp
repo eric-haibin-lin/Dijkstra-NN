@@ -62,17 +62,6 @@ int main(int argc, const char * argv[])
     cout << "Please input the information of destination node: " <<endl;
     cin >> leftNodeId2 >> rightNodeId2 >> dist2;
     
-    /*
-    
-    leftNodeId1 = 0;
-    rightNodeId1 = 1;
-    dist1 = 1.0;
-    
-    leftNodeId2 = 5;
-    rightNodeId2 =99;
-    dist2 = 5.0;
-     */
-    
     //If the two nodes are on the same edge.
     if (leftNodeId1 == leftNodeId2 && rightNodeId1 == rightNodeId2){
         double dist =(dist1 > dist2) ? dist1 - dist2 : dist2 - dist1;
@@ -83,9 +72,7 @@ int main(int argc, const char * argv[])
     int startId = splitEdge(leftNodeId1, rightNodeId1, dist1);
     int endId = splitEdge(leftNodeId2, rightNodeId2, dist2);
     
-    //printAdjacencyList();
-    //cout << "The start node id is " << startId << " ,the end node id is " << endId << endl;
-    
+
     
     if (nodeMap.count(startId) == 0){
         cout << "Error: Encountered unknown node ..." <<endl;
@@ -100,7 +87,6 @@ int main(int argc, const char * argv[])
     while (1){
         //Pop out the nearest node
         int currentNodeId = nodeListWithDistance[0]->getId();
-        //cout << "Pop current node " << currentNodeId << " with dist: " << nodeListWithDistance[0]->getDist() << endl;
         
         if (currentNodeId == endId){
             
@@ -117,11 +103,8 @@ int main(int argc, const char * argv[])
         
         //Update the heap with these adjacent node
         updateHeap(currentNodeId);
-        //printDistanceQueue();
     }
     
-    //printEdgeList();
-    //printDistanceQueue();
     inputFile.close();
     return 0;
 }
@@ -212,8 +195,6 @@ void updateHeap(int currentNodeId){
         Node* newNode = & nodeMap[adjacentNodeId];
         
         double newWeight = adjacentIt->getEdgeWeight();
-        //cout <<newWeight <<endl;
-        //cout << currentNode->getDist() <<endl;
         
         //If this adjacent node is a node not yet visited.
         if (newNode->visited == false){
@@ -226,7 +207,6 @@ void updateHeap(int currentNodeId){
                 vector<int> newPath = pathMap[currentNodeId];
                 newPath.push_back(newNode->getId());
                 pathMap[newNode->getId()] = newPath;
-                //cout << "add new node " << newNode->getId() << " with dist " << newNode->getDist() << " to the list. "<<endl;
             }
 
             else
@@ -236,12 +216,8 @@ void updateHeap(int currentNodeId){
                     vector<int> newPath = pathMap[currentNodeId];
                     newPath.push_back(newNode->getId());
                     pathMap[newNode->getId()] = newPath;
-                    
-                    //cout << "update old node " << newNode->getId() << " with dist " << newNode->getDist() << " to the list. "<<endl;
                 }
-                //else cout << "old node " << newNode->getId() << " with dist " << newNode->getDist() << " is not updated."<<endl;
         }
-        //else cout << newNode->getId() << " node already Visited!" <<endl;
     }
     sort(nodeListWithDistance.begin(), nodeListWithDistance.end(), compare);
     
